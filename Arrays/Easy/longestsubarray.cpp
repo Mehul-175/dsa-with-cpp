@@ -34,29 +34,51 @@ void display(vector<int> &arr)
 //     return longest;
 // }
 
+// int longestSubarray(vector<int>& nums, int k) {
+//     int n = nums.size();
+//     unordered_map<int, int> prefixMap;
+//     int sum=0;
+//     int maxLen=0;
+//     for(int i=0;i<n;i++){
+//         sum+=nums[i];
+//         if(sum==k) maxLen = i+1;
+//         int rem = sum - k;
+//         if(prefixMap.find(rem)!=prefixMap.end()){
+//             int len = i - prefixMap[rem];
+//             maxLen = max(maxLen, len);
+//         }
+//         if(prefixMap.find(sum)==prefixMap.end()){
+//             prefixMap[sum] = i;
+//         }
+//     }
+//     return maxLen;
+// }
+
 int longestSubarray(vector<int>& nums, int k) {
-    int n = nums.size();
-    unordered_map<int, int> prefixMap;
-    int sum=0;
-    int maxLen=0;
-    for(int i=0;i<n;i++){
-        sum+=nums[i];
-        if(sum==k) maxLen = i+1;
-        int rem = sum - k;
-        if(prefixMap.find(rem)!=prefixMap.end()){
-            int len = i - prefixMap[rem];
-            maxLen = max(maxLen, len);
+    int i=0,j=0;
+    int sum=nums[0];
+    int maxLen = 0;
+    while (j<nums.size())
+    {
+        while(sum>k and i<=j){
+            sum-=nums[i];
+            i++;
         }
-        if(prefixMap.find(sum)==prefixMap.end()){
-            prefixMap[sum] = i;
+        if(sum==k){
+            maxLen = max(maxLen, j-i+1);
+        }
+        j++;
+        if(j<nums.size()) {
+            sum+=nums[j];
         }
     }
     return maxLen;
+    
 }
 
 int main()
 {
-    vector<int> v = {1, 2, 3};
+    vector<int> v = {3, 1, 2, 1};
     display(v);
-    cout<<"The longest subarray is : "<<longestSubarray(v, 7);
+    cout<<"The longest subarray is : "<<longestSubarray(v, 4);
 }
